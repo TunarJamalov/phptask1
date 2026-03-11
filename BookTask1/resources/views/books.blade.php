@@ -40,7 +40,12 @@
 
                         <div class="mb-3">
                             <label class="form-label">Kateqoriya</label>
-                            <input type="text" name="category" class="form-control" placeholder="Kitabin kateqoriyasini yazin" required>
+                            <select name="category_id" class="form-select" required>
+                                <option value="" disabled selected>-- Kateqoriya Seçin --</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <div class="mb-3">
@@ -73,7 +78,7 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $book->title }}</td>
-                                <td>{{ $book->category }}</td>
+                                <td>{{ $book->category->name ?? 'Kategoriyasiz' }}</td>
                                 <td>{{ $book->price }} ₼</td>
                                 <td>{{ $book->created_at->format('d.m.Y H:i') }}</td>
                                 <td>

@@ -19,8 +19,15 @@
                             <input type="text" name="title" class="form-control" value="{{ $book->title }}" required>
                         </div>
                         <div class="mb-3">
-                            <label>Kateqoriya</label>
-                            <input type="text" name="category" class="form-control" value="{{ $book->category }}" required>
+                            <label class="form-label">Kateqoriya</label>
+                            <select name="category_id" class="form-select" required>
+                                <option value="" disabled>-- Kateqoriya Seçin --</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}" {{ $book->category_id == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label>Qiymət</label>
