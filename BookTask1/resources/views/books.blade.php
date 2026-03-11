@@ -9,6 +9,10 @@
 <body class="bg-light">
 
 <div class="container mt-5">
+    <div class="mb-4 text-center">
+        <a href="{{ route('books.index') }}" class="btn btn-primary">Kitablar Paneli</a>
+        <a href="{{ route('categories.index') }}" class="btn btn-outline-primary">Kateqoriyalar Paneli</a>
+    </div>
     <h2 class="mb-4 text-center">Kitablar</h2>
 
     @if(session('success'))
