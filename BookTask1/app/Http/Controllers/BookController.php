@@ -9,10 +9,19 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-    public function index(){
-        $books = Book::with('category')->latest()->paginate(5);
+    public function index(\Illuminate\Http\Request $request)
+    {
+        $query = Book::with('category')->latest();
+
+        if ($request->filled('search')) {
+            $query->where('title', 'like', '%' . $request->search . '%');
+        }
+
+        $books = $query->paginate(5)->appends($request->all());
+
         $categories = Category::all();
-        return view('books',compact('books','categories'));
+
+        return view('books', compact('books', 'categories'));
     }
 
     public function store(BookRequest $request){

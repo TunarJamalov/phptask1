@@ -67,6 +67,20 @@
         <div class="col-md-8">
             <div class="card shadow-sm">
                 <div class="card-body">
+                    <form action="{{ route('books.index') }}" method="GET" class="mb-4">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group shadow-sm">
+                                    <input type="text" name="search" class="form-control" placeholder="Kitab adı ilə axtar..." value="{{ request('search') }}">
+                                    <button type="submit" class="btn btn-primary">🔍 Axtar</button>
+
+                                    @if(request('search'))
+                                        <a href="{{ route('books.index') }}" class="btn btn-outline-danger">✖ Təmizlə</a>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                     <table class="table table-hover table-bordered mb-0">
                         <thead class="table-dark">
                         <tr>

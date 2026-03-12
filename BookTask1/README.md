@@ -5,12 +5,10 @@ Istifade ettim:
 1)MVC   
 2)CRUD   
 3)Sqlite  
-4)Bootstrap
+4)Bootstrap  
+5)Auth system  
+6)Search System  
+7)Pagination  
 
 
-Gelecekde oyrenib elave edilebilecek seyler:
-
-1)kategoriyaya gore obyekti tapmaq  
-2)sehifeleme sistemi  
-3)admin login sistemi + esas sehife
 
