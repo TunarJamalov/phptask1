@@ -68,16 +68,25 @@
             <div class="card shadow-sm">
                 <div class="card-body">
                     <form action="{{ route('books.index') }}" method="GET" class="mb-4">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="input-group shadow-sm">
-                                    <input type="text" name="search" class="form-control" placeholder="Kitab adı ilə axtar..." value="{{ request('search') }}">
-                                    <button type="submit" class="btn btn-primary">🔍 Axtar</button>
-
-                                    @if(request('search'))
-                                        <a href="{{ route('books.index') }}" class="btn btn-outline-danger">✖ Təmizlə</a>
-                                    @endif
-                                </div>
+                        <div class="row g-2">
+                            <div class="col-md-4">
+                                <input type="text" name="search" class="form-control" placeholder="Kitab adı ile axtar..." value="{{ request('search') }}">
+                            </div>
+                            <div class="col-md-4">
+                                <select name="category_id" class="form-select">
+                                    <option value="">-- Bütün Kateqoriyalar --</option>
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
+                                            {{ $category->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-primary">🔍 Axtar / Filtr</button>
+                                @if(request('search') || request('category_id'))
+                                    <a href="{{ route('books.index') }}" class="btn btn-danger">✖ Clear</a>
+                                @endif
                             </div>
                         </div>
                     </form>

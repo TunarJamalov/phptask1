@@ -17,8 +17,11 @@ class BookController extends Controller
             $query->where('title', 'like', '%' . $request->search . '%');
         }
 
-        $books = $query->paginate(5)->appends($request->all());
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
 
+        $books = $query->paginate(5)->appends($request->all());
         $categories = Category::all();
 
         return view('books', compact('books', 'categories'));
