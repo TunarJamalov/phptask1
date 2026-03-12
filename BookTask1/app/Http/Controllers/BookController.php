@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class BookController extends Controller
 {
     public function index(){
-        $books = Book::with('category')->latest()->get();
+        $books = Book::with('category')->latest()->paginate(5);
         $categories = Category::all();
         return view('books',compact('books','categories'));
     }
