@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BookRequest;
 use App\Models\Book;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -14,19 +15,8 @@ class BookController extends Controller
         return view('books',compact('books','categories'));
     }
 
-    public function store(Request $request){
-        $request->validate([
-            'title'=>'required|string|max:255',
-            'category_id'=>'required|exists:categories,id',
-            'price'=>'required|numeric|min:0',
-        ]);
-
-        Book::create([
-            'title'=> $request->title,
-            'category_id'=> $request->category_id,
-            'price'=> $request->price,
-        ]);
-
+    public function store(BookRequest $request){
+        Book::create($request->all());
         return redirect()->back()->with('message','Kitab elave olundu');
     }
 
@@ -35,15 +25,8 @@ class BookController extends Controller
         return view('edit',compact('book','categories'));
     }
 
-    public function update(Request $request,Book $book){
-        $request->validate([
-            'title'=>'required|string|max:255',
-            'category_id'=>'required|exists:categories,id',
-            'price'=>'required|numeric|min:0',
-        ]);
-
+    public function update(BookRequest $request,Book $book){
         $book->update($request->all());
-
         return redirect()->route('books.index')->with('message','kitab update olundu');
     }
 

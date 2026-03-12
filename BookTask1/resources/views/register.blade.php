@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html lang="az">
-<head>
-    <meta charset="UTF-8">
-    <title>Sistemə Qeydiyyat</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light d-flex align-items-center justify-content-center" style="height: 100vh;">
+@extends('app')
+@section('body_class', 'd-flex align-items-center justify-content-center')
+@section('body_style', 'height: 100vh;')
+@section('content')
 
 <div class="card shadow-sm" style="width: 400px;">
     <div class="card-body">
@@ -53,5 +49,4 @@
     </div>
 </div>
 
-</body>
-</html>
+@endsection
