@@ -3,9 +3,16 @@
 @section('content')
 
 <div class="container mt-5">
-    <div class="mb-4 text-center">
-        <a href="{{ route('books.index') }}" class="btn btn-outline-primary">Kitablar Paneli</a>
-        <a href="{{ route('categories.index') }}" class="btn btn-primary">Kateqoriyalar Paneli</a>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <a href="{{ route('books.index') }}" class="btn btn-outline-primary">Kitablar Paneli</a>
+            <a href="{{ route('categories.index') }}" class="btn btn-primary">Kateqoriyalar Paneli</a>
+        </div>
+
+        <form action="{{ route('logout') }}" method="POST">
+            @csrf
+            <button type="submit" class="btn btn-danger">Çıxış Et ({{ auth()->user()->name }})</button>
+        </form>
     </div>
 
     <h2 class="mb-4 text-center">Kateqoriya edit</h2>

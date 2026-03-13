@@ -37,7 +37,7 @@
                     Yeni Kitab Əlavə Et
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('books.store') }}" method="POST">
+                    <form action="{{ route('books.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf <div class="mb-3">
                             <label class="form-label">Kitabın Adı</label>
                             <input type="text" name="title" class="form-control" placeholder="Kitab adi yazin" required>
@@ -56,6 +56,11 @@
                         <div class="mb-3">
                             <label class="form-label">Qiymət</label>
                             <input type="number" step="0.01" name="price" class="form-control" placeholder="Kitabin qiymeti yazin" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Kitabın Şəkli</label>
+                            <input type="file" name="image" class="form-control" accept=".jpg,.jpeg,.png">
                         </div>
 
                         <button type="submit" class="btn btn-success w-100">Əlavə Et</button>
@@ -109,6 +114,13 @@
                                 <td>{{ $book->category->name ?? 'Kategoriyasiz' }}</td>
                                 <td>{{ $book->price }} ₼</td>
                                 <td>{{ $book->created_at->format('d.m.Y H:i') }}</td>
+                                <td>
+                                    @if($book->image)
+                                        <img src="{{ asset('storage/covers/' . $book->image) }}" width="50" height="70" style="object-fit: cover;">
+                                    @else
+                                        <span class="text-muted">Şəkil yoxdur</span>
+                                    @endif
+                                </td>
                                 <td>
                                     <a href="{{route('books.edit', $book->id)}}" class="btn btn-sm btn-warning">Duzelt</a>
 

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CategoryRequest;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Support\Facades\Gate;
+
 class CategoryController extends Controller
 {
     /**
@@ -12,7 +14,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::where('user_id', auth()->id())->latest()->get();
         return view('categories',compact('categories'));
     }
 
@@ -29,7 +31,10 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        Category::create($request->validated());
+        $data = $request->validated();
+        $data['user_id'] = auth()->id();
+
+        Category::create($data);
         return back()->with('success','Kategoriya yaradildi');
     }
 
@@ -46,17 +51,20 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
+        Gate::authorize('update', $category);
         return view('edit_category', compact('category'));
     }
 
     public function update(CategoryRequest $request, Category $category)
     {
+        Gate::authorize('update', $category);
         $category->update($request->validated());
         return redirect()->route('categories.index')->with('success', 'Kateqoriya adı update olundu');
     }
 
     public function destroy(Category $category)
     {
+        Gate::authorize('delete', $category);
         $category->delete();
         return redirect()->route('categories.index')->with('success', 'Kateqoriya ve aid olan butun kitablar silindi');
     }

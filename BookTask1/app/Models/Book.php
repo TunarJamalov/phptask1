@@ -9,9 +9,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Book extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['title','category_id','price'];
+    protected $fillable = ['title','category_id','price','image','user_id'];
 
     public function category(){
         return $this->belongsTo(Category::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
