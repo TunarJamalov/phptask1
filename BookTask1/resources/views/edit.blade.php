@@ -25,6 +25,15 @@
                             </select>
                         </div>
                         <div class="mb-3">
+                            <label class="form-label">Etiketlər (Tags)</label>
+                            <select name="tags[]" class="form-select" multiple>
+                                @foreach($tags as $tag)
+                                    <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                                @endforeach
+                            </select>
+                            <small class="text-muted">Birdən çox seçmək üçün CTRL (və ya Mac-da CMD) düyməsini basılı saxlayın.</small>
+                        </div>
+                        <div class="mb-3">
                             <label>Qiymət</label>
                             <input type="number" step="0.01" name="price" class="form-control" value="{{ $book->price }}" required>
                         </div>

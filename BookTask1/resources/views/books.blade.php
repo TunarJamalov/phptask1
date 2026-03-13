@@ -52,7 +52,15 @@
                                 @endforeach
                             </select>
                         </div>
-
+                        <div class="mb-3">
+                            <label class="form-label">Etiketlər (Tags)</label>
+                            <select name="tags[]" class="form-select" multiple>
+                                @foreach($tags as $tag)
+                                    <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                                @endforeach
+                            </select>
+                            <small class="text-muted">Birdən çox seçmək üçün CTRL (və ya Mac-da CMD) düyməsini basılı saxlayın.</small>
+                        </div>
                         <div class="mb-3">
                             <label class="form-label">Qiymət</label>
                             <input type="number" step="0.01" name="price" class="form-control" placeholder="Kitabin qiymeti yazin" required>
@@ -74,10 +82,10 @@
                 <div class="card-body">
                     <form action="{{ route('books.index') }}" method="GET" class="mb-4">
                         <div class="row g-2">
-                            <div class="col-md-4">
-                                <input type="text" name="search" class="form-control" placeholder="Kitab adı ile axtar..." value="{{ request('search') }}">
+                            <div class="col-md-3">
+                                <input type="text" name="search" class="form-control" placeholder="Kitab adı ilə axtar..." value="{{ request('search') }}">
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <select name="category_id" class="form-select">
                                     <option value="">-- Bütün Kateqoriyalar --</option>
                                     @foreach($categories as $category)
@@ -87,9 +95,19 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
+                                <select name="tag_id" class="form-select">
+                                    <option value="">-- Bütün Etiketlər --</option>
+                                    @foreach($tags as $tag)
+                                        <option value="{{ $tag->id }}" {{ request('tag_id') == $tag->id ? 'selected' : '' }}>
+                                            {{ $tag->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-3">
                                 <button type="submit" class="btn btn-primary">🔍 Axtar / Filtr</button>
-                                @if(request('search') || request('category_id'))
+                                @if(request('search') || request('category_id') || request('tag_id'))
                                     <a href="{{ route('books.index') }}" class="btn btn-danger">✖ Clear</a>
                                 @endif
                             </div>
@@ -103,6 +121,8 @@
                             <th>Kateqoriya</th>
                             <th>Qiymət</th>
                             <th>Tarix</th>
+                            <th>Şəkil</th>
+                            <th>Taglar</th>
                             <th>Əməliyyatlar</th>
                         </tr>
                         </thead>
@@ -119,6 +139,13 @@
                                         <img src="{{ asset('storage/covers/' . $book->image) }}" width="50" height="70" style="object-fit: cover;" alt="ad">
                                     @else
                                         <span class="text-muted">Şəkil yoxdur</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($book->tags->isNotEmpty())
+                                        {{ $book->tags->pluck('name')->implode(', ') }}
+                                    @else
+                                        <span class="text-muted">Tagsız</span>
                                     @endif
                                 </td>
                                 <td>

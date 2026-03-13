@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\BookRequest;
 use App\Models\Book;
 use App\Models\Category;
+use App\Models\Tag;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -13,7 +14,7 @@ class BookController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Book::where('user_id', auth()->id())->with('category')->latest();
+        $query = Book::where('user_id', auth()->id())->with('category','tags')->latest();
 
         if ($request->filled('search')) {
             $query->where('title', 'like', '%' . $request->search . '%');
@@ -23,10 +24,17 @@ class BookController extends Controller
             $query->where('category_id', $request->category_id);
         }
 
+        if ($request->filled('tag_id')) {
+            $query->whereHas('tags', function ($q) use ($request) {
+                $q->where('tags.id', $request->tag_id);
+            });
+        }
+
         $books = $query->paginate(5)->appends($request->all());
         $categories = Category::where('user_id', auth()->id())->get();
+        $tags = Tag::all();
 
-        return view('books', compact('books', 'categories'));
+        return view('books', compact('books', 'categories','tags'));
     }
 
     public function store(BookRequest $request){
@@ -40,7 +48,11 @@ class BookController extends Controller
 
         $data['user_id'] = auth()->id();
 
-        Book::create($data);
+        $book = Book::create($data);
+
+        if ($request->has('tags')) {
+            $book->tags()->attach($request->tags);
+        }
 
         return redirect()->back()->with('message','Kitab elave olundu');
     }
@@ -48,7 +60,8 @@ class BookController extends Controller
     public function edit(Book $book){
         Gate::authorize('update', $book);
         $categories = Category::where('user_id', auth()->id())->get();
-        return view('edit',compact('book','categories'));
+        $tags = Tag::all();
+        return view('edit',compact('book','categories','tags'));
     }
 
     public function update(BookRequest $request,Book $book){
@@ -67,6 +80,12 @@ class BookController extends Controller
             $data['image'] = $filename;
         }
         $book->update($data);
+
+        if ($request->has('tags')) {
+            $book->tags()->sync($request->tags);
+        } else {
+            $book->tags()->detach();
+        }
         return redirect()->route('books.index')->with('message','kitab update olundu');
     }
 
