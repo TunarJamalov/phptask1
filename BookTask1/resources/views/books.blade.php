@@ -116,7 +116,7 @@
                                 <td>{{ $book->created_at->format('d.m.Y H:i') }}</td>
                                 <td>
                                     @if($book->image)
-                                        <img src="{{ asset('storage/covers/' . $book->image) }}" width="50" height="70" style="object-fit: cover;">
+                                        <img src="{{ asset('storage/covers/' . $book->image) }}" width="50" height="70" style="object-fit: cover;" alt="ad">
                                     @else
                                         <span class="text-muted">Şəkil yoxdur</span>
                                     @endif

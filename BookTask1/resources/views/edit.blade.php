@@ -33,7 +33,7 @@
                             <label class="form-label">Cari Şəkil</label><br>
 
                             @if($book->image)
-                                <img src="{{ asset('storage/covers/' . $book->image) }}" width="100" class="mb-2 shadow-sm rounded">
+                                <img src="{{ asset('storage/covers/' . $book->image) }}" width="100" class="mb-2 shadow-sm rounded" alt="Image">
                             @else
                                 <span class="text-muted d-block mb-2">Bu kitabın şəkli yoxdur.</span>
                             @endif
