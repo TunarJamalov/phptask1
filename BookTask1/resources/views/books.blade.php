@@ -160,7 +160,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="text-center text-muted">Kitab yoxdur.</td>
+                                <td colspan="8" class="text-center text-muted">Kitab yoxdur.</td>
                             </tr>
                         @endforelse
                         </tbody>
