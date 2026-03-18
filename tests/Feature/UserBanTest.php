@@ -27,4 +27,5 @@ class UserBanTest extends TestCase
 
         $response->assertInvalid(['email']);
     }
+    //
 }
